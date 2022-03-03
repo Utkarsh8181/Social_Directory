@@ -1,10 +1,11 @@
-const dotenv = require('dotenv');
-const express = require('express');
+import dotenv from 'dotenv';
+import express from 'express';
+import { logger } from './logger/logger.js'
 const app = express();
 
-dotenv.config({path: './.env'});
+dotenv.config({ path: './.env' });
 
-require('./Database/database')
+import('./database/database.js')
 
 app.use(express.json());
 
@@ -13,5 +14,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is listening to the port`);
+    logger.info(`Server is listening to the port`);
 })
