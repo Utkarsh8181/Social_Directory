@@ -9,7 +9,6 @@ dotenv.config({ path: './.env' });
 import('./database/database.js')
 
 app.use(express.json());
-
 app.use(cors())
 
 import routes from './app/routes/routes.js' 

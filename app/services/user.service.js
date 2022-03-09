@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import Profile from '../model/profile.model.js';
 import user from '../model/user.model.js'
 import helper from '../utilities/helper.js'
 
@@ -30,6 +31,24 @@ class userService {
             else {
                 return "Password is incorrect"
             }
+        }
+    }
+
+    profile = async (body, id) => {
+        const exist = await Profile.findOne({ userId: id });
+        if (exist) {
+            return "Profile already exist"
+        }
+        else {
+            const userData = {
+                userId: id,
+                name: body.name,
+                dob: body.dob,
+                location: body.location,
+                interests: body.interests
+            }
+            const data = Profile.create(userData);
+            return data;
         }
     }
 }

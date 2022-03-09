@@ -2,6 +2,7 @@ import { logger } from "../../logger/logger.js";
 import validation from "../validation/validation.js";
 import userService from "../services/user.service.js"
 import http from 'http-status';
+import httpStatus from "http-status";
 
 class Controller {
     register = async (req, res) => {
@@ -67,6 +68,43 @@ class Controller {
             }
         } catch (error) {
             logger.error(error);
+        }
+    }
+
+    profile = async (req, res) => {
+        const profileData = {
+            name: req.body.name,
+            dob: req.body.dob,
+            interests: req.body.interests,
+            location: req.body.location
+        }
+        console.log("1",req.user);
+        const id = req.user.dataForToken.id;
+        try {
+            const profileValidation = validation.profileValidation.validate(profileData);
+            if (profileValidation.error) {
+                logger.error('Wrong Input Validations');
+                return res.status(422).send({
+                    success: false,
+                    error: 'Wrong Input Validations',
+                    data: profileValidation,
+                });
+            }
+            const data = await userService.profile(profileData, id);
+            if (data === "Profile already exist") {
+                res.status(http.BAD_REQUEST).json({
+                    error: "Profile already exist",
+                    success: false
+                })
+            }
+            else {
+                res.status(http.CREATED).json({
+                    message: "Profile was added successfully",
+                    success: true
+                })
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 }
