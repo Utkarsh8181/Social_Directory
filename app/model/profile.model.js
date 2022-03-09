@@ -11,11 +11,9 @@ const profileSchema = mongoose.Schema({
         required: true,
         minlength: 2
     },
-    interests: {
-        type: String,
-        required: true,
-        minlength: 2
-    },
+    interests:[ 
+         
+    ],
     location: {
         type: String,
         required: true,

@@ -32,11 +32,16 @@ class Validation {
         dob: Joi.string()
             .required(),
 
-        interests: Joi.string()
+        interests: Joi.array()
             .required(),
 
         location: Joi.string()
             .required()
+    })
+
+    searchValidation = Joi.object({
+        interests: Joi.array()
+            .required(),
     })
 }
 

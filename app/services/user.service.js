@@ -51,6 +51,13 @@ class userService {
             return data;
         }
     }
+
+    search = async (body) => {
+        const data = await Profile.find({
+            $or: [{ interests: { $regex: body.toString(), $options: "i" } }],
+        })
+        return data;
+    }
 }
 
 export default new userService;

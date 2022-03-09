@@ -78,7 +78,6 @@ class Controller {
             interests: req.body.interests,
             location: req.body.location
         }
-        console.log("1",req.user);
         const id = req.user.dataForToken.id;
         try {
             const profileValidation = validation.profileValidation.validate(profileData);
@@ -105,6 +104,39 @@ class Controller {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    search = async (req, res) => {
+        const interest = {
+            interests: req.body.interests
+        }
+        try {
+            // const searchValidation = validation.searchValidation.validate(searchValidation);
+            // if (searchValidation.error) {
+            //     res.status(httpStatus.UNPROCESSABLE_ENTITY).send({
+            //         success: false,
+            //         error: "Wrong input validation",
+            //         data: loginValidation
+            //     })
+            // }
+            const data = await userService.search(interest);
+            if (data) {
+                return res.status(httpStatus.OK).json({
+                    success: true,
+                    message: "Interest searched Successfully",
+                    data: data
+                })
+            }
+            else {
+                return res.status(httpStatus.NOT_FOUND).json({
+                    success: false,
+                    message: "Error in searching Interest",
+                })
+            }
+        } catch(error) {
+            console.log(error);
+            logger.error(error)
         }
     }
 }

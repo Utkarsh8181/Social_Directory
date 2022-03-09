@@ -8,4 +8,6 @@ export default app => {
   app.post('/signin', userController.login);
   // Api for adding Profile
   app.post('/profile', helper.tokenValidation, userController.profile)
+  // Api for adding Profile
+  app.get('/search', helper.tokenValidation, userController.search)
 };
